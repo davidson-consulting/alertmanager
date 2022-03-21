@@ -1,0 +1,51 @@
+= Alertmanager plugin for Redmine
+
+This project creates issues regarding to alerts sent by alertamanger.
+It creates an alerts if this alert is not registred as issue. Change the status from "firing" alert to "resolved" and close the issue.
+The unicity of an alert is calcutated as the following : "<alertname> <instance> <fingerprint>"
+
+The following informations are registred :
+**Status : <firing|resolved>
+**Priority : <setting_priority>
+**Assigned to : <setting_assigned>
+
+**Alertname : Alertname sent by alertmanager
+**Instance : Instance name sent by alertmanager
+**Description : Alert description sent by alertmanager
+**Generator : Url to explore prometheus alert sent by alertmanager
+**Starts At : Date time when alert started
+
+== Prerequesites ==
+
+You will need at least :
+- Redmine working (developped with version 4.2.4.stable)
+- API REST and JSONP activated in your redmine settings
+- a project
+- a tracker assigned to this project
+- a status 
+- a serviceaccount or a user with the API key
+
+== Install plugin ==
+
+Clone the project directly into redmine/plugins
+Restart redmine
+
+== Setup your redmine ==
+
+Once the plugin is visible into Admistration => Plugins, you can setup it by clicking on "Configure"
+Add the name of the project where the issues will be created
+Add the user Email of the user which will create the issues
+Add the default tracker that will follow the issues 
+Add the priority 
+
+Finally apply the modifications
+
+
+Into Statuses Administration part, create two statuses "firing" and "resolved" and check "Issue closed" for the resolved status
+Into Roles and permissions, create a new role for your service account/user which will create the issues and add "Alertmanagerapi" permission to this role
+Into Users and projects tab for your user, add your project with the role previously created
+
+In your project settings, check Alertmanagerapi Modules
+
+
+== Setup your Alertmanager
